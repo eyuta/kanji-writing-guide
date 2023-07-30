@@ -21,6 +21,7 @@ const Home = () => {
     return "";
   });
   const [imageSrcArray, setImageSrcArray] = useState<ImageLinkObject[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // 入力値が変更されたらローカルストレージに保存
   const handleInputChange = (newValue: string) => {
@@ -29,6 +30,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const fetchImage = async (unicode: string) => {
       const cachedSrc = localStorage.getItem(unicode);
       if (cachedSrc) {
@@ -66,6 +68,7 @@ const Home = () => {
             imgSrc?.src.includes("media.mojinavi.com")
           ) as ImageLinkObject[]
       );
+      setLoading(false);
     };
 
     extractAndFetchImages(inputText);
@@ -76,21 +79,30 @@ const Home = () => {
       <h1 className="text-4xl mb-4">漢字書き順ガイド</h1>
 
       <SearchBox initialValue={inputText} onSearch={handleInputChange} />
+      {loading && (
+        <div className="absolute top-2 right-2">
+          <div className="ease-linear rounded-full border-2 border-t-2 border-gray-200 h-4 w-4"></div>
+        </div>
+      )}
 
       <div className="grid grid-cols-3 gap-4 mt-8">
-        {imageSrcArray.map(({ src, link }, index) => (
-          <div key={index}>
-            <Link href={link} passHref>
-              <Image
-                key={index}
-                src={src}
-                width={400}
-                height={400}
-                alt="Kanji"
-              />
-            </Link>
-          </div>
-        ))}
+        {loading ? (
+          <div>読み込み中...</div>
+        ) : (
+          imageSrcArray.map(({ src, link }, index) => (
+            <div key={index}>
+              <Link href={link}>
+                <Image
+                  key={index}
+                  src={src}
+                  width={400}
+                  height={400}
+                  alt={src}
+                />
+              </Link>
+            </div>
+          ))
+        )}
       </div>
 
       <div>

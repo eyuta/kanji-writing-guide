@@ -17,15 +17,23 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialValue, onSearch }) => {
   }, [inputValue, onSearch]);
 
   return (
-    <input
-      type="text"
-      value={inputValue}
-      className="p-2 w-full border rounded"
-      placeholder="漢字を入力してください"
-      autoComplete="on"
-      style={{ color: "black", backgroundColor: "white" }}
-      onChange={(e) => setInputValue(e.target.value)}
-    />
+    <div className="relative">
+      <textarea
+        rows={2}
+        value={inputValue}
+        className="w-full pl-3 pr-10 py-2 rounded-md border focus:outline-none"
+        placeholder="漢字を入力してください"
+        autoComplete="on"
+        style={{ color: "black", backgroundColor: "white" }}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+      <button
+        onClick={() => setInputValue("")}
+        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
+      >
+        ✕
+      </button>
+    </div>
   );
 };
 
