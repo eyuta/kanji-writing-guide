@@ -24,7 +24,6 @@ const Home = () => {
 
   // 入力値が変更されたらローカルストレージに保存
   const handleInputChange = (newValue: string) => {
-    console.log("handleInputChange", newValue);
     setInputText(newValue);
     localStorage.setItem(INPUT_TEXT_KEY, newValue); // ここで保存
   };
@@ -33,7 +32,11 @@ const Home = () => {
     const fetchImage = async (unicode: string) => {
       const cachedSrc = localStorage.getItem(unicode);
       if (cachedSrc) {
-        return JSON.parse(cachedSrc) as ImageLinkObject;
+        try {
+          return JSON.parse(cachedSrc) as ImageLinkObject;
+        } catch (error) {
+          localStorage.removeItem(unicode);
+        }
       }
       const response = await axios.get(`/api/scrape?unicode=${unicode}`);
       const imgSrc = response.data.imgSrc;
