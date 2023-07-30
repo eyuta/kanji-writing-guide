@@ -15,8 +15,10 @@ const INPUT_TEXT_KEY = "inputTextKey";
 
 const Home = () => {
   const [inputText, setInputText] = useState<string>(() => {
-    // 初期値としてローカルストレージから値を取得
-    return localStorage.getItem(INPUT_TEXT_KEY) ?? "";
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(INPUT_TEXT_KEY) ?? "";
+    }
+    return "";
   });
   const [imageSrcArray, setImageSrcArray] = useState<ImageLinkObject[]>([]);
 
