@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 interface SearchBoxProps {
+  initialValue: string;
   onSearch: (value: string) => void;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ onSearch }) => {
-  const [inputValue, setInputValue] = useState("");
+const SearchBox: React.FC<SearchBoxProps> = ({ initialValue, onSearch }) => {
+  const [inputValue, setInputValue] = useState(initialValue);
 
   useEffect(() => {
     const timer = setTimeout(() => {
