@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  images: {
+    domains: ["mojinavi.com", "media.mojinavi.com"], // 画像のドメインをここに追加
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
